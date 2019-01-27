@@ -1,42 +1,77 @@
-var cats = [];
-var catTitles = ["Poussy", "Kinda"];
-var catTitlesDisplays = document.getElementsByClassName("catTitle");
-var catImgs = document.getElementsByClassName("catImg");
-var counterDisplays = document.getElementsByClassName("nClicks");
+/* Cat Clicker Premium */
 
-var nCats = catImgs.length;
+var catsList = document.getElementsByTagName("ul")[0];
+var catTitleDisplay = document.getElementById("catTitle");
+var catImg = document.getElementById("catImg");
+var catCountDisplay = document.getElementById("nClicks");
 
-function count(cat) {
-    console.log("count");
-    console.log(cat);
-    cat.img.addEventListener("click", function () {
-        cat.counter++;
-        cat.counterDisplay.innerHTML = cat.counter;
+var catTitles = ["Pousy", "Kinda", "Emilly", "Classy", "Tayla", "Belly"];
+var nCats = catTitles.length;
+
+function clickImg(liCopy) {
+    catImg.addEventListener('click', function () {
+        console.log(liCopy);
+        liCopy.dataset.count++;
+        catCountDisplay.innerHTML = liCopy.dataset.count;
     });
 }
-
 for(var i = 0; i < nCats; i++){
-    var cat = {
-        title: catTitles[i],
-        titleDisplay: catTitlesDisplays[i],
-        img: catImgs[i],
-        counter: 0,
-        counterDisplay: counterDisplays[i]
-    };
+    var li = document.createElement("li");
+    li.innerHTML = catTitles[i];
+    li.dataset.title = catTitles[i];
+    li.dataset.imgurl = "cat"+Number(i+1)+".png";
+    li.dataset.count = 0;
+    li.addEventListener('click', function () {
+        var me = this;
+        catImg.removeEventListener('click', clickImg, false);
+        console.log(this.dataset);
+        catTitleDisplay.innerHTML = this.dataset.title;
+        catImg.src = this.dataset.imgurl;
+        catImg.style.visibility = "visible";
+        catCountDisplay.innerHTML = this.dataset.count;
+    });
 
-    cat.titleDisplay.innerHTML = cat.title;
+    clickImg(li);
 
-    // count(cat);
-
-    cat.img.addEventListener("click", (function (catCopy) {
-        return function(){
-            catCopy.counter++;
-            catCopy.counterDisplay.innerHTML = catCopy.counter;
-        }
-    })(cat));
-
-    cats.push(cat);
+    catsList.appendChild(li);
 }
+
+
+
+
+
+
+
+/* DUO Cat Clicker */
+// var cats = [];
+// var catTitles = ["Poussy", "Kinda"];
+// var catTitlesDisplays = document.getElementsByClassName("catTitle");
+// var catImgs = document.getElementsByClassName("catImg");
+// var counterDisplays = document.getElementsByClassName("nClicks");
+//
+// var nCats = catImgs.length;
+//
+//
+// for(var i = 0; i < nCats; i++){
+//     var cat = {
+//         title: catTitles[i],
+//         titleDisplay: catTitlesDisplays[i],
+//         img: catImgs[i],
+//         counter: 0,
+//         counterDisplay: counterDisplays[i]
+//     };
+//
+//     cat.titleDisplay.innerHTML = cat.title;
+//
+//     cat.img.addEventListener("click", (function (catCopy) {
+//         return function(){
+//             catCopy.counter++;
+//             catCopy.counterDisplay.innerHTML = catCopy.counter;
+//         }
+//     })(cat));
+//
+//     cats.push(cat);
+// }
 
 
 /* This approach isn't valid as the callback for click always sees the last value of the loop variable (j or k) */
