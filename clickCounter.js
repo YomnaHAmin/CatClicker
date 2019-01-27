@@ -26,7 +26,14 @@ for(var i = 0; i < nCats; i++){
 
     cat.titleDisplay.innerHTML = cat.title;
 
-    count(cat);
+    // count(cat);
+
+    cat.img.addEventListener("click", (function (catCopy) {
+        return function(){
+            catCopy.counter++;
+            catCopy.counterDisplay.innerHTML = catCopy.counter;
+        }
+    })(cat));
 
     cats.push(cat);
 }
