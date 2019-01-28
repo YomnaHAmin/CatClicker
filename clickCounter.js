@@ -4,17 +4,19 @@ var catsList = document.getElementsByTagName("ul")[0];
 var catTitleDisplay = document.getElementById("catTitle");
 var catImg = document.getElementById("catImg");
 var catCountDisplay = document.getElementById("nClicks");
+var catCountDisplayTitle = document.getElementById("nClicksTitle");
 
 var catTitles = ["Pousy", "Kinda", "Emilly", "Classy", "Tayla", "Belly"];
 var nCats = catTitles.length;
 
-function clickImg(liCopy) {
-    catImg.addEventListener('click', function () {
-        console.log(liCopy);
-        liCopy.dataset.count++;
-        catCountDisplay.innerHTML = liCopy.dataset.count;
-    });
-}
+var activeCat;
+
+catImg.addEventListener('click', function () {
+    console.log(activeCat);
+    activeCat.dataset.count++;
+    catCountDisplay.innerHTML = activeCat.dataset.count;
+});
+
 for(var i = 0; i < nCats; i++){
     var li = document.createElement("li");
     li.innerHTML = catTitles[i];
@@ -22,16 +24,16 @@ for(var i = 0; i < nCats; i++){
     li.dataset.imgurl = "cat"+Number(i+1)+".png";
     li.dataset.count = 0;
     li.addEventListener('click', function () {
-        var me = this;
-        catImg.removeEventListener('click', clickImg, false);
+        activeCat = this;
         console.log(this.dataset);
         catTitleDisplay.innerHTML = this.dataset.title;
         catImg.src = this.dataset.imgurl;
         catImg.style.visibility = "visible";
+        catCountDisplayTitle.style.visibility = "visible";
         catCountDisplay.innerHTML = this.dataset.count;
+
     });
 
-    clickImg(li);
 
     catsList.appendChild(li);
 }
